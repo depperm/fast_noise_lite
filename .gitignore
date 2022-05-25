@@ -1,0 +1,9 @@
+# Binaries for programs and plugins
+main
+open_simplex2
+*.exe
+*.exe~
+*.so
+*.dylib
+*.dll
+vls.log
