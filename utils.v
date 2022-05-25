@@ -1,4 +1,4 @@
-module fast_noise_lite
+module noise
 
 import math
 
