@@ -177,15 +177,15 @@ pub enum DomainWarpType {
 Public functions
 
 ```
-pub fn new_noise(c FastNoiseConfig) // returns noise struct with settings to generate noise
+pub fn new_noise(c FastNoiseConfig) FastNoiseLite // returns noise struct with settings to generate noise
 
 pub fn (fast FastNoiseLite) get_noise_2(xx f64, yy f64) f64 // returns 2D noise in range [-1, 1]
 
 pub fn (fast FastNoiseLite) get_noise_3(xx f64, yy f64, zz f64) f64 // returns 3D noise in range [-1, 1]
 
-pub fn (fast FastNoiseLite) domain_warp_2(mut x &f64, mut y &f64)
+pub fn (fast FastNoiseLite) domain_warp_2(mut x f64, mut y f64)
 
-pub fn (fast FastNoiseLite) domain_warp_3(mut x &f64, mut y &f64, mut z &f64)
+pub fn (fast FastNoiseLite) domain_warp_3(mut x f64, mut y f64, mut z f64)
 
 pub fn text_noise(c FastNoiseConfig, width int, height int, warp bool) // see the noise as text
 ```
