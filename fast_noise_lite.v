@@ -47,7 +47,7 @@ fn hash_3(seed int, x_primed int, y_primed int, z_primed int) int { // TODO chan
 }
 
 fn val_coord_2(seed int, x_primed int, y_primed int) f64 {
-	mut hash := hash_2(seed, x_primed, y_primed)
+	mut hash := u32(hash_2(seed, x_primed, y_primed))
 
 	hash *= hash
 	hash ^= hash << 19
@@ -55,7 +55,7 @@ fn val_coord_2(seed int, x_primed int, y_primed int) f64 {
 }
 
 fn val_coord_3(seed int, x_primed int, y_primed int, z_primed int) f64 {
-	mut hash := hash_3(seed, x_primed, y_primed, z_primed)
+	mut hash := u32(hash_3(seed, x_primed, y_primed, z_primed))
 
 	hash *= hash
 	hash ^= hash << 19
@@ -63,7 +63,7 @@ fn val_coord_3(seed int, x_primed int, y_primed int, z_primed int) f64 {
 }
 
 fn grad_coord_2(seed int, x_primed int, y_primed int, xd f64, yd f64) f64 {
-	mut hash := hash_2(seed, x_primed, y_primed)
+	mut hash := u32(hash_2(seed, x_primed, y_primed))
 	hash ^= hash >> 15
 	hash &= 127 << 1
 
@@ -74,7 +74,7 @@ fn grad_coord_2(seed int, x_primed int, y_primed int, xd f64, yd f64) f64 {
 }
 
 fn grad_coord_3(seed int, x_primed int, y_primed int, z_primed int, xd f64, yd f64, zd f64) f64 {
-	mut hash := hash_3(seed, x_primed, y_primed, z_primed)
+	mut hash := u32(hash_3(seed, x_primed, y_primed, z_primed))
 	hash ^= hash >> 15
 	hash &= 63 << 2
 
@@ -86,14 +86,14 @@ fn grad_coord_3(seed int, x_primed int, y_primed int, z_primed int, xd f64, yd f
 }
 
 fn grad_coord_out_2(seed int, x_primed int, y_primed int, mut xo &f64, mut yo &f64) {
-	hash := hash_2(seed, x_primed, y_primed) & (255 << 1)
+	hash := u32(hash_2(seed, x_primed, y_primed)) & (255 << 1)
 
 	xo = rand_vecs2d[hash]
 	yo = rand_vecs2d[hash | 1]
 }
 
 fn grad_coord_out_3(seed int, x_primed int, y_primed int, z_primed int, mut xo &f64, mut yo &f64, mut zo &f64) {
-	hash := hash_3(seed, x_primed, y_primed, z_primed) & (255 << 2)
+	hash := u32(hash_3(seed, x_primed, y_primed, z_primed)) & (255 << 2)
 
 	xo = rand_vecs3d[hash]
 	yo = rand_vecs3d[hash | 1]
@@ -101,7 +101,7 @@ fn grad_coord_out_3(seed int, x_primed int, y_primed int, z_primed int, mut xo &
 }
 
 fn grad_coord_dual_2(seed int, x_primed int, y_primed int, xd f64, yd f64, mut xo &f64, mut yo &f64) {
-	hash := hash_2(seed, x_primed, y_primed)
+	hash := u32(hash_2(seed, x_primed, y_primed))
 	index1 := hash & (127 << 1)
 	index2 := (hash >> 7) & (255 << 1)
 
@@ -117,7 +117,7 @@ fn grad_coord_dual_2(seed int, x_primed int, y_primed int, xd f64, yd f64, mut x
 }
 
 fn grad_coord_dual_3(seed int, x_primed int, y_primed int, z_primed int, xd f64, yd f64, zd f64, mut xo &f64, mut yo &f64, mut zo &f64) {
-	hash := hash_3(seed, x_primed, y_primed, z_primed)
+	hash := u32(hash_3(seed, x_primed, y_primed, z_primed))
 	index1 := hash & (63 << 2)
 	index2 := (hash >> 6) & (255 << 2)
 
@@ -213,14 +213,17 @@ pub struct FastNoiseConfig {
 
 	m_cellular_distance_function CellularDistanceFunction = CellularDistanceFunction.euclidean_sq
 	m_cellular_return_type       CellularReturnType       = CellularReturnType.distance
-	m_cullular_jitter_modifier   f64 = 1.0
+	m_cellular_jitter_modifier   f64 = 1.0
 
 	m_domain_warp_type      DomainWarpType  = DomainWarpType.open_simplex2
 	m_warp_transform_type3d TransformType3D = TransformType3D.default_open_simplex2
 	m_domain_warp_amp       f64 = 1.0
+
+	m_random_num_range bool = false
 }
 
 struct FastNoiseLite {
+mut:
 	m_seed             int
 	m_freqency         f64
 	m_noise_type       NoiseType
@@ -238,11 +241,85 @@ struct FastNoiseLite {
 
 	m_cellular_distance_function CellularDistanceFunction
 	m_cellular_return_type       CellularReturnType
-	m_cullular_jitter_modifier   f64
+	m_cellular_jitter_modifier   f64
 
 	m_domain_warp_type      DomainWarpType
 	m_warp_transform_type3d TransformType3D
 	m_domain_warp_amp       f64
+
+	m_random_num_range bool
+}
+
+pub fn (mut fast FastNoiseLite) set_seed(s int) {
+	fast.m_seed = s
+}
+
+pub fn (mut fast FastNoiseLite) set_frequency(f f64) {
+	fast.m_freqency = f
+}
+
+pub fn (mut fast FastNoiseLite) set_noise_type(nt NoiseType) {
+	fast.m_noise_type = nt
+}
+
+pub fn (mut fast FastNoiseLite) set_rotation_type(rt RotationType3D) {
+	fast.m_rotation_type3d = rt
+}
+
+pub fn (mut fast FastNoiseLite) set_transform_type(tt TransformType3D) {
+	fast.m_transform_type3d = tt
+}
+
+pub fn (mut fast FastNoiseLite) set_fractal_type(ft FractalType) {
+	fast.m_fractal_type = ft
+}
+
+pub fn (mut fast FastNoiseLite) set_octaves(o int) {
+	fast.m_octaves = o
+}
+
+pub fn (mut fast FastNoiseLite) set_lacunarity(l f64) {
+	fast.m_lacunarity = l
+}
+
+pub fn (mut fast FastNoiseLite) set_gain(g f64) {
+	fast.m_gain = g
+}
+
+pub fn (mut fast FastNoiseLite) set_weighted_strength(ws f64) {
+	fast.m_weighted_strength = ws
+}
+
+pub fn (mut fast FastNoiseLite) set_ping_pong_strength(pps f64) {
+	fast.m_ping_pong_strength = pps
+}
+
+pub fn (mut fast FastNoiseLite) set_fractal_bounding(fb f64) {
+	fast.m_fractal_bounding = fb
+}
+
+pub fn (mut fast FastNoiseLite) set_cellular_distance_function(cdf CellularDistanceFunction) {
+	fast.m_cellular_distance_function = cdf
+}
+
+pub fn (mut fast FastNoiseLite) set_cellular_return_type(crt CellularReturnType) {
+	fast.m_cellular_return_type = crt
+}
+
+pub fn (mut fast FastNoiseLite) set_cellular_jitter_modifier(cjm f64) {
+	fast.m_cellular_jitter_modifier = cjm
+}
+
+pub fn (mut fast FastNoiseLite) set_domain_warp_type(dwt DomainWarpType) {
+	fast.m_domain_warp_type = dwt
+}
+
+pub fn (mut fast FastNoiseLite) set_warp_transform_type(wtt TransformType3D) {
+	fast.m_warp_transform_type3d = wtt
+}
+
+pub fn (mut fast FastNoiseLite) set_domain_warp_amp(dwa f64) {
+	fast.m_domain_warp_amp = dwa
 }
 
 // new_noise returns FastNoiseLite struct to generate noise
@@ -268,7 +345,7 @@ pub fn new_noise(c FastNoiseConfig) &FastNoiseLite {
 		m_fractal_bounding: c.m_fractal_bounding
 		m_cellular_distance_function: c.m_cellular_distance_function
 		m_cellular_return_type: c.m_cellular_return_type
-		m_cullular_jitter_modifier: c.m_cullular_jitter_modifier
+		m_cellular_jitter_modifier: c.m_cellular_jitter_modifier
 		m_domain_warp_type: c.m_domain_warp_type
 		m_warp_transform_type3d: c.m_warp_transform_type3d
 		m_domain_warp_amp: c.m_domain_warp_amp
@@ -284,20 +361,26 @@ pub fn (fast FastNoiseLite) get_noise_2(xx f64, yy f64) f64 {
 	mut x, mut y := xx, yy
 	fast.transform_noise_coord_2(mut x, mut y)
 
+	mut n := 0.0
 	match fast.m_fractal_type {
 		.fbm {
-			return fast.gen_fractal_fbm_2(x, y)
+			n = fast.gen_fractal_fbm_2(x, y)
 		}
 		.ridged {
-			return fast.gen_fractal_ridged_2(x, y)
+			n = fast.gen_fractal_ridged_2(x, y)
 		}
 		.ping_pong {
-			return fast.gen_fractal_ping_pong_2(x, y)
+			n = fast.gen_fractal_ping_pong_2(x, y)
 		}
 		else {
-			return fast.gen_noise_single_2(fast.m_seed, x, y)
+			n = fast.gen_noise_single_2(fast.m_seed, x, y)
 		}
 	}
+	if fast.m_random_num_range {
+		n += 1
+		n /= 2
+	}
+	return n
 }
 
 // get_noise_3 calculates 3D noise at given position using current settings
@@ -307,20 +390,26 @@ pub fn (fast FastNoiseLite) get_noise_3(xx f64, yy f64, zz f64) f64 {
 	mut x, mut y, mut z := xx, yy, zz
 	fast.transform_noise_coord_3(mut x, mut y, mut z)
 
+	mut n := 0.0
 	match fast.m_fractal_type {
 		.fbm {
-			return fast.gen_fractal_fbm_3(x, y, z)
+			n = fast.gen_fractal_fbm_3(x, y, z)
 		}
 		.ridged {
-			return fast.gen_fractal_ridged_3(x, y, z)
+			n = fast.gen_fractal_ridged_3(x, y, z)
 		}
 		.ping_pong {
-			return fast.gen_fractal_ping_pong_3(x, y, z)
+			n = fast.gen_fractal_ping_pong_3(x, y, z)
 		}
 		else {
-			return fast.gen_noise_single_3(fast.m_seed, x, y, z)
+			n = fast.gen_noise_single_3(fast.m_seed, x, y, z)
 		}
 	}
+	if fast.m_random_num_range {
+		n += 1
+		n /= 2
+	}
+	return n
 }
 
 fn (fast FastNoiseLite) transform_noise_coord_2(mut x &f64, mut y &f64) {
@@ -561,8 +650,8 @@ fn (fast FastNoiseLite) single_simplex(seed int, x f64, y f64) f64 {
 	if c > 0 {
 		x2 := x0 + (2 * noise.g2 - 1)
 		y2 := y0 + (2 * noise.g2 - 1)
-		n2 = (c * c) * (c * c) * grad_coord_2(seed, i + noise.prime_x, j +
-			noise.prime_y, x2, y2)
+		n2 = (c * c) * (c * c) * grad_coord_2(seed, i + noise.prime_x, j + noise.prime_y,
+			x2, y2)
 	}
 
 	if y0 > x0 {
@@ -570,16 +659,14 @@ fn (fast FastNoiseLite) single_simplex(seed int, x f64, y f64) f64 {
 		y1 := y0 + (noise.g2 - 1)
 		b := .5 - x1 * x1 - y1 * y1
 		if b > 0 {
-			n1 = (b * b) * (b * b) * grad_coord_2(seed, i, j + noise.prime_y,
-				x1, y1)
+			n1 = (b * b) * (b * b) * grad_coord_2(seed, i, j + noise.prime_y, x1, y1)
 		}
 	} else {
 		x1 := x0 + (noise.g2 - 1)
 		y1 := y0 + noise.g2
 		b := .5 - x1 * x1 - y1 * y1
 		if b > 0 {
-			n1 = (b * b) * (b * b) * grad_coord_2(seed, i + noise.prime_x, j,
-				x1, y1)
+			n1 = (b * b) * (b * b) * grad_coord_2(seed, i + noise.prime_x, j, x1, y1)
 		}
 	}
 
@@ -626,8 +713,8 @@ fn (fast FastNoiseLite) single_open_simplex2s_2(seed int, x f64, y f64) f64 {
 			y2 := y0 + f64(3 * noise.g2 - 1)
 			a2 := (2.0 / 3.0) - x2 * x2 - y2 * y2
 			if a2 > 0 {
-				value += (a2 * a2) * (a2 * a2) * grad_coord_2(seed, i +
-					(noise.prime_x << 1), j + noise.prime_y, x2, y2)
+				value += (a2 * a2) * (a2 * a2) * grad_coord_2(seed, i + (noise.prime_x << 1),
+					j + noise.prime_y, x2, y2)
 			}
 		} else {
 			x2 := x0 + noise.g2
@@ -727,22 +814,21 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 	z0 := zi + z_n_mask
 	a0 := 0.75 - x0 * x0 - y0 * y0 - z0 * z0
 	mut value := (a0 * a0) * (a0 * a0) * grad_coord_3(seed, i + (x_n_mask & noise.prime_x),
-		j + (y_n_mask & noise.prime_y), k + (z_n_mask & noise.prime_z),
-		x0, y0, z0)
+		j + (y_n_mask & noise.prime_y), k + (z_n_mask & noise.prime_z), x0, y0, z0)
 
 	x1 := xi - 0.5
 	y1 := yi - 0.5
 	z1 := zi - 0.5
 	a1 := 0.75 - x1 * x1 - y1 * y1 - z1 * z1
-	value += (a1 * a1) * (a1 * a1) * grad_coord_3(seed2, i + noise.prime_x,
-		j + noise.prime_y, k + noise.prime_z, x1, y1, z1)
+	value += (a1 * a1) * (a1 * a1) * grad_coord_3(seed2, i + noise.prime_x, j + noise.prime_y,
+		k + noise.prime_z, x1, y1, z1)
 
-	x_a_flip_mask_0 := ((x_n_mask | 1) << 1) * x1
-	y_a_flip_mask_0 := ((y_n_mask | 1) << 1) * y1
-	z_a_flip_mask_0 := ((z_n_mask | 1) << 1) * z1
-	x_a_flip_mask_1 := (-2 - (x_n_mask << 2)) * x1 - 1.0
-	y_a_flip_mask_1 := (-2 - (y_n_mask << 2)) * y1 - 1.0
-	z_a_flip_mask_1 := (-2 - (z_n_mask << 2)) * z1 - 1.0
+	x_a_flip_mask_0 := ((u32(x_n_mask) | 1) << 1) * x1
+	y_a_flip_mask_0 := ((u32(y_n_mask) | 1) << 1) * y1
+	z_a_flip_mask_0 := ((u32(z_n_mask) | 1) << 1) * z1
+	x_a_flip_mask_1 := (-2 - (u32(x_n_mask) << 2)) * x1 - 1.0
+	y_a_flip_mask_1 := (-2 - (u32(y_n_mask) << 2)) * y1 - 1.0
+	z_a_flip_mask_1 := (-2 - (u32(z_n_mask) << 2)) * z1 - 1.0
 
 	mut skip5 := false
 	a2 := x_a_flip_mask_0 + a0
@@ -750,18 +836,17 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 		x2 := x0 - (x_n_mask | 1)
 		y2 := y0
 		z2 := z0
-		value += (a2 * a2) * (a2 * a2) * grad_coord_3(seed, i +
-			(~x_n_mask & noise.prime_x), j + (y_n_mask & noise.prime_y),
-			k + (z_n_mask & noise.prime_z), x2, y2, z2)
+		value += (a2 * a2) * (a2 * a2) * grad_coord_3(seed, i + (~x_n_mask & noise.prime_x),
+			j + (y_n_mask & noise.prime_y), k + (z_n_mask & noise.prime_z), x2, y2, z2)
 	} else {
 		a3 := y_a_flip_mask_0 + z_a_flip_mask_0 + a0
 		if a3 > 0 {
 			x3 := x0
 			y3 := y0 - (y_n_mask | 1)
 			z3 := z0 - (z_n_mask | 1)
-			value += (a3 * a3) * (a3 * a3) * grad_coord_3(seed, i +
-				(x_n_mask & noise.prime_x), j + (~y_n_mask & noise.prime_y),
-				k + (~z_n_mask & noise.prime_z), x3, y3, z3)
+			value += (a3 * a3) * (a3 * a3) * grad_coord_3(seed, i + (x_n_mask & noise.prime_x),
+				j + (~y_n_mask & noise.prime_y), k + (~z_n_mask & noise.prime_z), x3,
+				y3, z3)
 		}
 
 		a4 := x_a_flip_mask_1 + a1
@@ -770,8 +855,8 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			y4 := y1
 			z4 := z1
 			value += (a4 * a4) * (a4 * a4) * grad_coord_3(seed2, i +
-				(x_n_mask & (noise.prime_x * 2)), j + noise.prime_y,
-				k + noise.prime_z, x4, y4, z4)
+				(x_n_mask & (noise.prime_x * 2)), j + noise.prime_y, k + noise.prime_z,
+				x4, y4, z4)
 			skip5 = true
 		}
 	}
@@ -783,17 +868,16 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 		y6 := y0 - (y_n_mask | 1)
 		z6 := z0
 		value += (a6 * a6) * (a6 * a6) * grad_coord_3(seed, i + (x_n_mask & noise.prime_x),
-			j + (~y_n_mask & noise.prime_y), k + (z_n_mask & noise.prime_z),
-			x6, y6, z6)
+			j + (~y_n_mask & noise.prime_y), k + (z_n_mask & noise.prime_z), x6, y6, z6)
 	} else {
 		a7 := x_a_flip_mask_0 + z_a_flip_mask_0 + a0
 		if a7 > 0 {
 			x7 := x0 - (x_n_mask | 1)
 			y7 := y0
 			z7 := z0 - (z_n_mask | 1)
-			value += (a7 * a7) * (a7 * a7) * grad_coord_3(seed, i +
-				(~x_n_mask & noise.prime_x), j + (y_n_mask & noise.prime_y),
-				k + (~z_n_mask & noise.prime_z), x7, y7, z7)
+			value += (a7 * a7) * (a7 * a7) * grad_coord_3(seed, i + (~x_n_mask & noise.prime_x),
+				j + (y_n_mask & noise.prime_y), k + (~z_n_mask & noise.prime_z), x7, y7,
+				z7)
 		}
 
 		a8 := y_a_flip_mask_1 + a1
@@ -801,9 +885,8 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			x8 := x1
 			y8 := (y_n_mask | 1) + y1
 			z8 := z1
-			value += (a8 * a8) * (a8 * a8) * grad_coord_3(seed2, i + noise.prime_x,
-				j + (y_n_mask & (noise.prime_y << 1)), k + noise.prime_z,
-				x8, y8, z8)
+			value += (a8 * a8) * (a8 * a8) * grad_coord_3(seed2, i + noise.prime_x, j +
+				(y_n_mask & (noise.prime_y << 1)), k + noise.prime_z, x8, y8, z8)
 			skip9 = true
 		}
 	}
@@ -814,9 +897,9 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 		x_ba := x0
 		y_ba := y0
 		z_ba := z0 - (z_n_mask | 1)
-		value += (a_ba * a_ba) * (a_ba * a_ba) * grad_coord_3(seed, i +
-			(x_n_mask & noise.prime_x), j + (y_n_mask & noise.prime_y),
-			k + (~z_n_mask & noise.prime_z), x_ba, y_ba, z_ba)
+		value += (a_ba * a_ba) * (a_ba * a_ba) * grad_coord_3(seed, i + (x_n_mask & noise.prime_x),
+			j + (y_n_mask & noise.prime_y), k + (~z_n_mask & noise.prime_z), x_ba, y_ba,
+			z_ba)
 	} else {
 		a_bb := x_a_flip_mask_0 + y_a_flip_mask_0 + a0
 		if a_bb > 0 {
@@ -824,8 +907,8 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			y_bb := y0 - (y_n_mask | 1)
 			z_bb := z0
 			value += (a_bb * a_bb) * (a_bb * a_bb) * grad_coord_3(seed, i +
-				(~x_n_mask & noise.prime_x), j + (~y_n_mask & noise.prime_y),
-				k + (z_n_mask & noise.prime_z), x_bb, y_bb, z_bb)
+				(~x_n_mask & noise.prime_x), j + (~y_n_mask & noise.prime_y), k +
+				(z_n_mask & noise.prime_z), x_bb, y_bb, z_bb)
 		}
 
 		a_bc := z_a_flip_mask_1 + a1
@@ -834,8 +917,7 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			y_c := y1
 			z_c := (z_n_mask | 1) + z1
 			value += (a_bc * a_bc) * (a_bc * a_bc) * grad_coord_3(seed2, i + noise.prime_x,
-				j + noise.prime_y, k + (z_n_mask & (noise.prime_z << 1)),
-				x_c, y_c, z_c)
+				j + noise.prime_y, k + (z_n_mask & (noise.prime_z << 1)), x_c, y_c, z_c)
 			skip_bd = true
 		}
 	}
@@ -846,9 +928,9 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			x5 := x1
 			y5 := (y_n_mask | 1) + y1
 			z5 := (z_n_mask | 1) + z1
-			value += (a5 * a5) * (a5 * a5) * grad_coord_3(seed2, i + noise.prime_x,
-				j + (y_n_mask & (noise.prime_y << 1)), k +
-				(z_n_mask & (noise.prime_z << 1)), x5, y5, z5)
+			value += (a5 * a5) * (a5 * a5) * grad_coord_3(seed2, i + noise.prime_x, j +
+				(y_n_mask & (noise.prime_y << 1)), k + (z_n_mask & (noise.prime_z << 1)),
+				x5, y5, z5)
 		}
 	}
 
@@ -859,8 +941,8 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			y9 := y1
 			z9 := (z_n_mask | 1) + z1
 			value += (a9 * a9) * (a9 * a9) * grad_coord_3(seed2, i +
-				(x_n_mask & (noise.prime_x * 2)), j + noise.prime_y,
-				k + (z_n_mask & (noise.prime_z << 1)), x9, y9, z9)
+				(x_n_mask & (noise.prime_x * 2)), j + noise.prime_y, k +
+				(z_n_mask & (noise.prime_z << 1)), x9, y9, z9)
 		}
 	}
 
@@ -871,9 +953,8 @@ fn (fast FastNoiseLite) single_open_simplex2s_3(seed int, x f64, y f64, z f64) f
 			y_d := (y_n_mask | 1) + y1
 			z_d := z1
 			value += (a_bd * a_bd) * (a_bd * a_bd) * grad_coord_3(seed2, i +
-				(x_n_mask & (noise.prime_x << 1)), j +
-				(y_n_mask & (noise.prime_y << 1)), k + noise.prime_z,
-				x_d, y_d, z_d)
+				(x_n_mask & (noise.prime_x << 1)), j + (y_n_mask & (noise.prime_y << 1)),
+				k + noise.prime_z, x_d, y_d, z_d)
 		}
 	}
 
@@ -978,7 +1059,7 @@ fn (fast FastNoiseLite) single_cellular_2(seed int, x f64, y f64) f64 {
 	mut distance1 := 1e10
 	mut closest_hash := 0
 
-	cellular_jitter := 0.43701595 * fast.m_cullular_jitter_modifier
+	cellular_jitter := 0.43701595 * fast.m_cellular_jitter_modifier
 
 	mut x_primed := int((xr - 1) * noise.prime_x)
 	y_primed_base := int((yr - 1) * noise.prime_y)
@@ -1099,7 +1180,7 @@ fn (fast FastNoiseLite) single_cellular_3(seed int, x f64, y f64, z f64) f64 {
 	mut distance1 := 1e10
 	mut closest_hash := 0
 
-	cellular_jitter := 0.39614353 * fast.m_cullular_jitter_modifier
+	cellular_jitter := 0.39614353 * fast.m_cellular_jitter_modifier
 
 	mut x_primed := int((xr - 1) * noise.prime_x)
 	y_primed_base := int((yr - 1) * noise.prime_y)
@@ -1689,11 +1770,10 @@ fn (fast FastNoiseLite) single_domain_warp_simplex_gradient(seed int, warp_amp f
 		y2 := y0 + (2 * noise.g2 - 1)
 		cccc := (c * c) * (c * c)
 		if out_grad_only {
-			grad_coord_out_2(seed, i + noise.prime_x, j + noise.prime_y, mut
-				xo, mut yo)
+			grad_coord_out_2(seed, i + noise.prime_x, j + noise.prime_y, mut xo, mut yo)
 		} else {
-			grad_coord_dual_2(seed, i + noise.prime_x, j + noise.prime_y,
-				x2, y2, mut xo, mut yo)
+			grad_coord_dual_2(seed, i + noise.prime_x, j + noise.prime_y, x2, y2, mut
+				xo, mut yo)
 		}
 		vx += cccc * xo
 		vy += cccc * yo
@@ -1708,8 +1788,7 @@ fn (fast FastNoiseLite) single_domain_warp_simplex_gradient(seed int, warp_amp f
 			if out_grad_only {
 				grad_coord_out_2(seed, i, j + noise.prime_y, mut xo, mut yo)
 			} else {
-				grad_coord_dual_2(seed, i, j + noise.prime_y, x1, y1, mut xo, mut
-					yo)
+				grad_coord_dual_2(seed, i, j + noise.prime_y, x1, y1, mut xo, mut yo)
 			}
 			vx += bbbb * xo
 			vy += bbbb * yo
@@ -1723,8 +1802,7 @@ fn (fast FastNoiseLite) single_domain_warp_simplex_gradient(seed int, warp_amp f
 			if out_grad_only {
 				grad_coord_out_2(seed, i + noise.prime_x, j, mut xo, mut yo)
 			} else {
-				grad_coord_dual_2(seed, i + noise.prime_x, j, x1, y1, mut xo, mut
-					yo)
+				grad_coord_dual_2(seed, i + noise.prime_x, j, x1, y1, mut xo, mut yo)
 			}
 			vx += bbbb * xo
 			vy += bbbb * yo
@@ -1934,6 +2012,7 @@ pub fn text_noise(c FastNoiseConfig, width int, height int, warp bool) {
 			}
 			mut n := fast.get_noise_2(x, y)
 			n += 1
+			n /= 2
 			match true {
 				n < 1.0 / 17 {
 					print(' ')
