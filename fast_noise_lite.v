@@ -219,7 +219,7 @@ pub struct FastNoiseConfig {
 	m_warp_transform_type3d TransformType3D = TransformType3D.default_open_simplex2
 	m_domain_warp_amp       f64 = 1.0
 
-	m_random_num_range bool = false
+	m_random_num_range bool
 }
 
 struct FastNoiseLite {
