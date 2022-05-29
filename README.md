@@ -51,38 +51,38 @@ fn main(){
 ```
 Which outputs:
 ```
-WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNNXXXKKOO0kkxxddoollcc;;;,,,'''...............''''',,,,;;;;ccccclllloooooddddddxxxxxxxxkkkkkkkkkkkkk00000000000000
-NWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNNNXXKKOO00kkxxddolllcc;;,,,'''.................''''',,,,;;;;;cccclllllooooooddddddxxxxxxxkkkkkkkk0000000000OOOOOOO
-XNNNNNNNWWWWWWWWWWWWWWWWWWWWWWWWWWNNNXXKKKOO00kxxddoollcc;;;,,''''......     .......''''',,,,;;;;;ccccclllllooooooddddddxxxxxxkkkkkk0000000OOOOOOOKKKK
-KXXXXXXXNNNNNNNWWWWWWWWWWWWWWWWWNNNNXXXKKOO00kkxxddoollcc;;,,,'''.....         ......'''',,,,,;;;;;ccccccllllllooooodddddxxxxxkkkkk000000OOOOOKKKKKKXX
-OOKKKKKKXXXXXXNNNNNNNWWWWWWWWNNNNNXXXXKKOO000kkxxdoollccc;;,,''''.....         ......''''',,,,,;;;;;;cccccclllllloooooddddxxxxxkkkk0000OOOOOKKKKXXXXXN
-00OOOOOOKKKKKXXXXXXNNNNNNNNNNNNNXXXXKKKOOO00kkxxddoollcc;;,,,'''.....          ......''''',,,,,,;;;;;;cccccccllllllooooddddxxxxkkkk000OOOOKKKKXXXXNNNN
-k000000OOOOOOKKKKKXXXXXXXXXXXXXXXXXKKKOOO00kkkxxddoollcc;;,,,'''.....          ......''''',,,,,,;;;;;;;;ccccccclllllooooddddxxxkkkk000OOOKKKXXXXNNNWWW
-xkkkkkk00000OOOOOKKKKKXXXXXXXXXXXKKKKOOO000kkxxddoollcc;;;,,''''....           ......''''',,,,,,,;;;;;;;;;cccccccllllloooddddxxxkkk000OOKKKXXXNNNWWWWW
-xxxxxxkkkkk00000OOOOKKKKKKKKKKKKKKKOOOO000kkxxdddoollcc;;,,,'''.....          ......'''''',,,,,,,,;;;;;;;;;;;ccccccllllooodddxxxkkk00OOOKKXXXNNWWWWWWW
-ddddddxxxxkkkkk0000OOOOOOKKKKKKKOOOOOO000kkxxxddoollccc;;,,,'''.....         ......'''''',,,,,,,,,,;;;;;;;;;;;;cccccllllooodddxxkkk00OOKKKXXNNWWWWWWWW
+ddddddddxxxxxxxxxxxxxxxxxxxxxxddddddooooollllccc;;;;,,,,'''''......               .........''''''''',,,,,,,,,;;;;;;;;;;;;;;ccccccccccccccccccccccccccc
+oddddddddddddddddxxxxxxxxxdddddddddooooollllcccc;;;;,,,,''''......                 .........''''''''',,,,,,,,,,,;;;;;;;;;;;;;cccccccccccccccccclllllll
+ooooooooddddddddddddddddddddddddddooooolllllccc;;;;,,,,'''''......                  .........'''''''''',,,,,,,,,,,;;;;;;;;;;;;ccccccccccccclllllllllll
+loooooooooooooodddddddddddddddddooooooollllcccc;;;;,,,,''''......                    .........''''''''''',,,,,,,,,,,;;;;;;;;;;cccccccccccllllllllllloo
+lllllllloooooooooooooddddddddooooooooollllccccc;;;,,,,'''''......                    ..........'''''''''''',,,,,,,,,,,;;;;;;;;;ccccccccllllllllloooooo
+cclllllllllllooooooooooooooooooooooollllllcccc;;;;,,,,''''......                     ...........''''''''''''',,,,,,,,,,;;;;;;;;ccccccclllllllloooooooo
+ccccccclllllllllllooooooooooooooooollllllccccc;;;;,,,,''''......                     ...........''''''''''''''',,,,,,,,,;;;;;;;ccccccclllllloooooooddd
+;cccccccccccllllllllllooooooooooolllllllccccc;;;;,,,,'''''......                     ............'''''''''''''''',,,,,,,,;;;;;;;cccccclllllooooooddddd
+;;;;;;cccccccccclllllllllllllllllllllllccccc;;;;;,,,,''''......                     ..............''''''''''''''''',,,,,,,;;;;;;cccccllllloooooddddddd
+;;;;;;;;;;ccccccccclllllllllllllllllllccccc;;;;;,,,,'''''......                    ................''''''''''''''''',,,,,,,;;;;;cccccllllloooodddddxxx
 
-WWWWWWWWWWWWWWWWWWWNXXXXXXXXXKOO000k000000kddoddddxkk00000OOOOO000kxdddddxk000kkxxxxdddxxkk00OKKXXXXXXXXKKXXXNWWWWWWNNXXKOOOOOOOOOOOOO00kkk0000OKKXNWW
-XXNNNNNNNNNNNNWWWWWNXXKKKKKKKKO0000000000kkddddddddxk000OOKKKOO0000kxxxxxk00000kxxxxxddxxxk00OOKKKOOOOOOOKKKXXNWWWWWNXKKOOO0000OOKOOO000kkkk00OKXNNWWW
-OOKXXXXXXNNNXXNNNNNNXKKKKOOOOO0000000O000kkxdddddddxkk00OKKKKOO0O00kkkkkk00O000kkxxxxxddxxxk00000000kkk00OOOKXNWWNNXXXKKOO000000OOOOO000kkk000OKNNWWWW
-000OOOOKKXXXXXXXXXXXKKKKO00000000000OO0000kxdddddddxxkk0OOKKKOOOO00000kk0OOO00kkkkkxxxdddddxkkkkkkkkxxxxk0OOOXNNNXXXXXKKOO0000k0OOOOOO000000OOOXNWWWWW
-kkkkkk0OKKKKKKKKKKKKKOOOO0kkkkkk0000OOO00kkxxxxddddxxkk0OOOKKKKOO0000000OKKO00k0000kxxxddoodxxxxxxxxxxddxk00OKXNNXXKKXXKOO000kk00OOOOOOOOOOOOKKXNWWWWW
-dddddxk0OOOOOOO0000OOOOO00kkkxxk00000OOO0kkxxxxddddxxkk0OOKKKKKKOO00000OOKKKO0000000kxxdooooddxxxxxxdddddxk0OKXXNXXKKKKKOO000kkk000OKKKOKKKKKKXNWWWWWW
-ddooodxk0OO0OO0kkkk000000k00kxxkk000OKKO0kkxkkkxddddxxk00OKXXXKKKO0000OOKKKKKO000000kkxdollloodddddddoooodxk0KKXXXKKOOOOOO0000kkk0OKXXKKKKKKKKXNWWWWWW
-oooloodx000000kkxxkk00000000kxxkkk0OKKXKO0kkk0kkxxxddxkk0OKXXXXKKKO000OOKXKKOO0000000kxdollllloodddooooooodx0OKKKKOOOOOOOO00000000OKXXXXXKKKKXXNWWWWWW
-oolllooxk000kkkxxxxkkkk00000kkxxkk0KXXXKO000000kkkxxxkk00OXXNXXXXKKO000OKXKKOO0000000kkdoooollllooooolllooodkOOOOOOOOOOOOO00OOO00OOKKKKXXKKKKXNWWWWWWW
-ooooooodxkkkkkxxxxxkkkk00000kkkkkkOKXNXXKOOO00000kkxk0000OKXNNXXXKKO000OKXKOOOOOOO0000kxdddolllllooollllllodx00OOO000OOO0000OOOOOOOKKOOKKKKKXXNWWWWWWW
+dddddddddddddddddddooooooooooollccccccccccc;;,;;;;;ccccccclllllcccc;;;;;;;cccccc;;;;;;;;;ccccllloooooooolooooodddxdddooollllllllllllllcccccccccllooodd
+oooooooooodooodddddooolllllllllcccccccccccc;;;;;;;;;cccclllllllccccc;;;;;ccccccc;;;;;;;;;;ccclllllllllllllllooodddddoolllllclcclllllllcccccccclloooddd
+llloooooooooooooooooolllllllllccccccclccccc;;;;;;;;;cccclllllllcllccccccccllccccc;;;;;;;;;;ccccccccccccccllllooddooooollllcccccclllllccccccccclloodddx
+cccllllllooooooooooolllllcccccccccccllccccc;;;;;;;;;;ccclllllllllcccccccclllcccccccc;;;;;;;;ccccccccc;;;ccllloooooooooolllccccccllllllccccccllloodddxx
+;cccccclllollllllllllllllccccccccccclllcccc;;;;;;;;;;ccclllllllllccccccclllllccccccc;;;;;,,;;;;;;;;;;;;;;cccllooooolloolllcccccccllllllllllllllooddxxx
+;;;;;;cclllllllcccllllllccccc;cccccclllcccc;;;;;;;;;;cccclllllllllcccclllllllcccccccc;;;,,,,;;;;;;;;;;;;;;ccllooooolllllllccccccccclllllllllllooddxxxx
+;;,,,;;cclllllccccccccccccccc;;cccccllllccc;ccc;;;;;;;ccclloooolllccccllllllllcccccccc;;,,,,,,;;;;;;;;,,;;;ccllooolllllllllcccccccclooolllllllooddxxxk
+,,,,,,;;cccccccc;;ccccccccccc;;cccclllllcccccccc;;;;;;ccclloooollllccclllollllcccccccc;;,,,,,,,,;;;,,,,,,,;;cllllllllllllllcccccccllooooolllloooddxxkk
+,,,,,,,;ccccccc;;;;ccccccccccc;;ccllooollccccccccc;;;cccclloooooolllcccllollllccccccccc;,,,,,,,,,,,,,,,,,,,;clllllllllllllcclllcclllllllollllooddxxkkk
+,,,,,,,;;ccccc;;;;;cccccccccccccccllooolllllccccccc;ccccclloooooolllcccllollllllllccccc;;;;,,,,,,,,,,,,,,,,;;cclllccclllcccclllllllllllllllloooddxxkkk
 
-WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNNNXXKKOOO00kkxxddoollcc;;;,,,,'''''........'''''',,,,;;;;ccccclllloooooddddddxxxxxxxxkkkkkkkkkkkkk00000000000000
-NWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNNNXXKKKOO00kkxxddoollccc;;;,,,'''''........''''''',,,,;;;;;cccclllllooooooddddddxxxxxxxkkkkkkkk0000000000OOOOOOO
-XNNNNNNNWWWWWWWWWWWWWWWWWWWWWWWWWWWWNNNNXXKKKOO00kkxxxddoollccc;;,,,,'''''........'''''',,,,,;;;;;ccccclllllooooooddddddxxxxxxkkkkkk0000000OOOOOOOKKKK
-KXXXXXXXNNNNNNNWWWWWWWWWWWWWWWWWWWWWNNNNXXXKKOOO00kkxxddooollcc;;;,,,,''''''.....''''''',,,,,,;;;;;ccccccllllllooooodddddxxxxxkkkkk000000OOOOOKKKKKKXX
-OOKKKKKKXXXXXXNNNNNNNWWWWWWWWWWWWWWNNNNNXXXKKKOOO00kkxxddooollccc;;,,,,''''''''''''''''',,,,,,,;;;;;;cccccclllllloooooddddxxxxxkkkk0000OOOOOKKKKXXXXXN
-00OOOOOOKKKKKXXXXXXNNNNNNNWWWWWWWWWNNNNNNXXXKKKOOO00kkxxddooollccc;;;,,,,''''''''''''''',,,,,,,;;;;;;;cccccccllllllooooddddxxxxkkkk000OOOOKKKKXXXXNNNN
-k000000OOOOOOKKKKKXXXXXNNNNNNNNNNNNNNNNNNNXXXKKKOOO00kkxxxddoolllcc;;;;,,,,,''''''''''',,,,,,,,,;;;;;;;;ccccccclllllooooddddxxxkkkk000OOOKKKXXXXNNNWWW
-xkkkkkk00000OOOOKKKKKXXXXXNNNNNNNNNNNNNNNNNXXXXKKKOO00kkkxxddooollccc;;;;,,,,,,,,,,,,,,,,,,,,,,,;;;;;;;;;;cccccccllllloooddddxxxkkk000OOKKKXXXNNNWWWWW
-xxxxxxkkkkk0000OOOOKKKKXXXXXNNNNNNNNNNNNNNNNNXXXKKKOOO00kkxxxddoolllccc;;;;;,,,,,,,,,,,,,,,,,,,,,;;;;;;;;;;;;ccccccllllooodddxxxkkk00OOOKKXXXNNWWWWWWW
-ddddddxxxxkkkk0000OOOKKKKXXXXNNNNNNWWWWWWWNNNNNXXXKKKOOO00kkxxdddoolllcccc;;;;;;;,,,,,,,,,,,,,,,,;;;;;;;;;;;;;;cccccllllooodddxxkkk00OOKKKXXNNWWWWWWWW
+ddddddddxxxxxxxxxxxxxxxxxxxxxxdddddddooooolllllcccc;;;;,,,,'''''.........        ..........''''''''',,,,,,,,,;;;;;;;;;;;;;;ccccccccccccccccccccccccccc
+oddddddddddddddddxxxxxxxxxxddddddddddooooolllllcccc;;;;,,,,''''''........        ...........''''''''',,,,,,,,,,,;;;;;;;;;;;;;cccccccccccccccccclllllll
+ooooooooddddddddddddddddddddddddddddoooooolllllcccc;;;;;,,,,'''''.........        ...........'''''''''',,,,,,,,,,,;;;;;;;;;;;;ccccccccccccclllllllllll
+loooooooooooooodddddddddddddddddddddooooooolllllcccc;;;;,,,,,'''''..........     .............''''''''''',,,,,,,,,,,;;;;;;;;;;cccccccccccllllllllllloo
+lllllllloooooooooooooddddddddddddddoooooooollllllcccc;;;;,,,,,'''''............................'''''''''''',,,,,,,,,,,;;;;;;;;;ccccccccllllllllloooooo
+cclllllllllllooooooooooooodddddddddooooooooollllllcccc;;;;,,,,,''''''..........................'''''''''''''',,,,,,,,,,;;;;;;;;ccccccclllllllloooooooo
+ccccccclllllllllllooooooooooooooooooooooooooollllllcccc;;;;;,,,,,''''''.........................''''''''''''''',,,,,,,,,;;;;;;;ccccccclllllloooooooddd
+;cccccccccccllllllllloooooooooooooooooooooooooolllllccccc;;;;,,,,,'''''''.......................''''''''''''''''',,,,,,,,;;;;;;;cccccclllllooooooddddd
+;;;;;;cccccccccllllllllooooooooooooooooooooooooollllllcccc;;;;;,,,,,''''''''.....................'''''''''''''''''',,,,,,,;;;;;;cccccllllloooooddddddd
+;;;;;;;;;;ccccccccllllllloooooooooodddddddoooooooollllllcccc;;;;;,,,,,'''''''''''................''''''''''''''''''',,,,,,,;;;;;cccccllllloooodddddxxx
 ```
 
 ## Docs
@@ -113,6 +113,8 @@ pub struct FastNoiseConfig {
 	m_domain_warp_type      DomainWarpType  = DomainWarpType.open_simplex2
 	m_warp_transform_type3d TransformType3D = TransformType3D.default_open_simplex2
 	m_domain_warp_amp       f64 = 1.0
+	
+	m_random_num_range bool
 }
 ```
 
@@ -188,4 +190,41 @@ pub fn (fast FastNoiseLite) domain_warp_2(mut x f64, mut y f64)
 pub fn (fast FastNoiseLite) domain_warp_3(mut x f64, mut y f64, mut z f64)
 
 pub fn text_noise(c FastNoiseConfig, width int, height int, warp bool) // see the noise as text
+
+// CONFIG individual setters
+pub fn (mut fast FastNoiseLite) set_seed(s int)
+
+pub fn (mut fast FastNoiseLite) set_frequency(f f64)
+
+pub fn (mut fast FastNoiseLite) set_noise_type(nt NoiseType)
+
+pub fn (mut fast FastNoiseLite) set_rotation_type(rt RotationType3D)
+
+pub fn (mut fast FastNoiseLite) set_transform_type(tt TransformType3D)
+
+pub fn (mut fast FastNoiseLite) set_fractal_type(ft FractalType)
+
+pub fn (mut fast FastNoiseLite) set_octaves(o int)
+
+pub fn (mut fast FastNoiseLite) set_lacunarity(l f64) 
+
+pub fn (mut fast FastNoiseLite) set_gain(g f64)
+
+pub fn (mut fast FastNoiseLite) set_weighted_strength(ws f64)
+
+pub fn (mut fast FastNoiseLite) set_ping_pong_strength(pps f64)
+
+pub fn (mut fast FastNoiseLite) set_fractal_bounding(fb f64)
+
+pub fn (mut fast FastNoiseLite) set_cellular_distance_function(cdf CellularDistanceFunction)
+
+pub fn (mut fast FastNoiseLite) set_cellular_return_type(crt CellularReturnType)
+
+pub fn (mut fast FastNoiseLite) set_cellular_jitter_modifier(cjm f64)
+
+pub fn (mut fast FastNoiseLite) set_domain_warp_type(dwt DomainWarpType)
+
+pub fn (mut fast FastNoiseLite) set_warp_transform_type(wtt TransformType3D)
+
+pub fn (mut fast FastNoiseLite) set_domain_warp_amp(dwa f64)
 ```
