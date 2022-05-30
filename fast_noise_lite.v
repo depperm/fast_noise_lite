@@ -19,7 +19,6 @@ module noise
 //
 // VERSION: 0.0.1
 // source: https://github.com/Auburn/FastNoise
-import math
 
 const (
 	prime_x = 501125321
@@ -33,14 +32,14 @@ const (
 )
 
 fn hash_2(seed int, x_primed int, y_primed int) int {
-	mut hash := math.powi(math.powi(seed, x_primed), y_primed)
+	mut hash := powi(powi(seed, x_primed), y_primed)
 
 	hash *= 0x27d4eb2d
 	return int(hash)
 }
 
 fn hash_3(seed int, x_primed int, y_primed int, z_primed int) int { // TODO change to i64?
-	mut hash := math.powi(math.powi(math.powi(seed, x_primed), y_primed), z_primed)
+	mut hash := powi(powi(powi(seed, x_primed), y_primed), z_primed)
 
 	hash *= 0x27d4eb2d
 	return int(hash)
@@ -137,7 +136,7 @@ fn grad_coord_dual_3(seed int, x_primed int, y_primed int, z_primed int, xd f64,
 
 fn ping_pong(t f64) f64 {
 	tt := t - int(t * .5) * 2
-	return ternary<f64>(tt < 1, tt, 2 - tt)
+	return if tt < 1 { tt } else { 2 - tt }
 }
 
 pub enum NoiseType {
@@ -2008,7 +2007,12 @@ pub fn text_noise(c FastNoiseConfig, width int, height int, warp bool) {
 		for yy in 0 .. width {
 			mut x, mut y := f64(xx), f64(yy)
 			if warp {
-				fast.domain_warp_2(mut x, mut y)
+				mut fast2 := new_noise({
+					m_fractal_type:     ridged
+					m_octaves:          2
+					m_domain_warp_type: open_simplex2_reduced
+				})
+				fast2.domain_warp_2(mut x, mut y)
 			}
 			mut n := fast.get_noise_2(x, y)
 			n += 1

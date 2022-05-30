@@ -1,13 +1,63 @@
 module noise
 
-import math
-
-fn ternary<T>(exp bool, cond_true T, cond_false T) T {
-	if exp {
-		return cond_true
+// math functions copied directly from math to avoid large import
+[inline]
+pub fn sqrt(a f64) f64 {
+	mut x := a
+	if x == 0.0 || is_nan(x) || is_inf(x, 1) {
+		return x
 	}
-	return cond_false
+	if x < 0.0 {
+		return nan()
+	}
+	z, ex := frexp(x)
+	w := x
+	// approximate square root of number between 0.5 and 1
+	// relative error of approximation = 7.47e-3
+	x = 4.173075996388649989089e-1 + 5.9016206709064458299663e-1 * z // adjust for odd powers of 2
+	if (ex & 1) != 0 {
+		x *= sqrt2
+	}
+	x = ldexp(x, ex >> 1)
+	// newton iterations
+	x = 0.5 * (x + w / x)
+	x = 0.5 * (x + w / x)
+	x = 0.5 * (x + w / x)
+	return x
 }
+
+pub fn powi(a i64, b i64) i64 {
+	mut b_ := b
+	mut p := a
+	mut v := i64(1)
+
+	if b_ < 0 { // exponent < 0
+		if a == 0 {
+			return -1 // division by 0
+		}
+		return if a * a != 1 {
+			0
+		} else {
+			if (b_ & 1) > 0 {
+				a
+			} else {
+				1
+			}
+		}
+	}
+
+	for ; b_ > 0; {
+		if b_ & 1 > 0 {
+			v *= p
+		}
+		p *= p
+		b_ >>= 1
+	}
+
+	return v
+}
+
+// END math module fn copy
 
 [inline]
 fn lerp(a f64, b f64, t f64) f64 {
@@ -32,32 +82,40 @@ fn interp_quintic(t f64) f64 {
 
 [inline]
 fn fast_min(a f64, b f64) f64 {
-	return ternary<f64>(a < b, a, b)
+	return if a < b { a } else { b }
 }
 
 [inline]
 fn fast_max(a f64, b f64) f64 {
-	return ternary<f64>(a > b, a, b)
+	return if a > b { a } else { b }
 }
 
 [inline]
 fn fast_abs(f f64) f64 {
-	return ternary<f64>(f < 0, -f, f)
+	return if f < 0 { -f } else { f }
 }
 
 [inline]
 fn fast_floor(f f64) int {
-	return int(ternary<f64>(f >= 0, f64(int(f)), f64(int(f) - 1)))
+	return int(if f >= 0 {
+		f64(int(f))
+	} else {
+		f64(int(f) - 1)
+	})
 }
 
 [inline]
 fn fast_sqrt(f f64) f64 {
-	return math.sqrt(f)
+	return sqrt(f)
 }
 
 [inline]
 fn fast_round(f f64) int {
-	return int(ternary<f64>(f >= 0, f64(int(f + .5)), f64(int(f - .5))))
+	return int(if f >= 0 {
+		f64(int(f + .5))
+	} else {
+		f64(int(f - .5))
+	})
 }
 
 const (
